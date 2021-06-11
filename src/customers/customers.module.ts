@@ -1,4 +1,4 @@
-import { Module } from '@nestjs/common';
+import { Logger, Module } from '@nestjs/common';
 import { CustomersController } from './customers.controller';
 import { CustomerRepository } from './repositories/customer.repository';
 import { RegisterNewCustomerUseCase } from './use-cases/register-new-customer.use-case';
@@ -6,6 +6,7 @@ import { RegisterNewCustomerUseCase } from './use-cases/register-new-customer.us
 @Module({
   controllers: [CustomersController],
   providers: [
+    Logger,
     RegisterNewCustomerUseCase,
     {
       provide: 'ICustomerRepository',
