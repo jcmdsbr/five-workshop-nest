@@ -1,73 +1,78 @@
-<p align="center">
-  <a href="http://nestjs.com/" target="blank"><img src="https://nestjs.com/img/logo_text.svg" width="320" alt="Nest Logo" /></a>
-</p>
+# Primeiros passos :sunglasses:
 
-[circleci-image]: https://img.shields.io/circleci/build/github/nestjs/nest/master?token=abc123def456
-[circleci-url]: https://circleci.com/gh/nestjs/nest
+## Croar módulo de Conta Bancária :heavy_check_mark:
 
-  <p align="center">A progressive <a href="http://nodejs.org" target="_blank">Node.js</a> framework for building efficient and scalable server-side applications.</p>
-    <p align="center">
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/v/@nestjs/core.svg" alt="NPM Version" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/l/@nestjs/core.svg" alt="Package License" /></a>
-<a href="https://www.npmjs.com/~nestjscore" target="_blank"><img src="https://img.shields.io/npm/dm/@nestjs/common.svg" alt="NPM Downloads" /></a>
-<a href="https://circleci.com/gh/nestjs/nest" target="_blank"><img src="https://img.shields.io/circleci/build/github/nestjs/nest/master" alt="CircleCI" /></a>
-<a href="https://coveralls.io/github/nestjs/nest?branch=master" target="_blank"><img src="https://coveralls.io/repos/github/nestjs/nest/badge.svg?branch=master#9" alt="Coverage" /></a>
-<a href="https://discord.gg/G7Qnnhy" target="_blank"><img src="https://img.shields.io/badge/discord-online-brightgreen.svg" alt="Discord"/></a>
-<a href="https://opencollective.com/nest#backer" target="_blank"><img src="https://opencollective.com/nest/backers/badge.svg" alt="Backers on Open Collective" /></a>
-<a href="https://opencollective.com/nest#sponsor" target="_blank"><img src="https://opencollective.com/nest/sponsors/badge.svg" alt="Sponsors on Open Collective" /></a>
-  <a href="https://paypal.me/kamilmysliwiec" target="_blank"><img src="https://img.shields.io/badge/Donate-PayPal-ff3f59.svg"/></a>
-    <a href="https://opencollective.com/nest#sponsor"  target="_blank"><img src="https://img.shields.io/badge/Support%20us-Open%20Collective-41B883.svg" alt="Support us"></a>
-  <a href="https://twitter.com/nestframework" target="_blank"><img src="https://img.shields.io/twitter/follow/nestframework.svg?style=social&label=Follow"></a>
-</p>
-  <!--[![Backers on Open Collective](https://opencollective.com/nest/backers/badge.svg)](https://opencollective.com/nest#backer)
-  [![Sponsors on Open Collective](https://opencollective.com/nest/sponsors/badge.svg)](https://opencollective.com/nest#sponsor)-->
-
-## Description
-
-[Nest](https://github.com/nestjs/nest) framework TypeScript starter repository.
-
-## Installation
-
-```bash
-$ npm install
+```sh
+nest g module accounts
+nest g controller accounts
 ```
 
-## Running the app
+- Vamos criar nossa classe Account que irá representar nossa conta bancária
+- Depois vamos criar nosso contrato que irá representar as transações do nosso sistema
+- Uma vez criado, agora iremos definir nossas classes responsáveis por Crédito e Débito
+- Agora vamos voltar para nossa conta bancária e definir alguns comportamentos
+  - Método Open é um factory method que irá representar a abertura de uma nova conta
+  - Deposit será o nosso método que representará o comportamento de deposito
+  - Credit será o nosso método que representará o comportamento de Crédito
+  - Precisamos de um método para retornar o saldo atual da conta para fins de cálculo
+- Vamos definir nossos casos de uso agora com eles vamos descrever os comportamentos e regras da nossa aplicação
 
-```bash
-# development
-$ npm run start
-
-# watch mode
-$ npm run start:dev
-
-# production mode
-$ npm run start:prod
+```sh
+nest g service accounts/useCases/CloseAccount
+nest g service accounts/useCases/deposit
+nest g service accounts/useCases/withdraw
+nest g service accounts/useCases/getCurrentBalance
 ```
 
-## Test
+- Vamos criar nosso repositório e seu contrato
+- Depois vamos configurar o DI dele
 
-```bash
-# unit tests
-$ npm run test
-
-# e2e tests
-$ npm run test:e2e
-
-# test coverage
-$ npm run test:cov
+```ts
+@Module({
+  controllers: [AccountsController],
+  providers: [
+    CloseAccountService,
+    DepositService,
+    GetCurrentBalanceService,
+    WithdrawService,
+    { provide: 'IAccountRepository', useClass: AccountRepositry },
+  ],
+})
+export class AccountsModule {}
 ```
 
-## Support
+## Criar módulo de Clientes :exclamation:
 
-Nest is an MIT-licensed open source project. It can grow thanks to the sponsors and support by the amazing backers. If you'd like to join them, please [read more here](https://docs.nestjs.com/support).
+```sh
+nest g module customers
+nest g controller customers
+```
 
-## Stay in touch
+- Vamos instalar o validador de CPF :heavy_check_mark:
 
-- Author - [Kamil Myśliwiec](https://kamilmysliwiec.com)
-- Website - [https://nestjs.com](https://nestjs.com/)
-- Twitter - [@nestframework](https://twitter.com/nestframework)
+```sh
+npm i cpf-cnpj-validato
+```
 
-## License
+- Vamos trabalhar com eventos instalando :heavy_check_mark:
 
-Nest is [MIT licensed](LICENSE).
+```sh
+npm i --save @nestjs/event-emitter
+```
+
+- Configuração do modulo de Cliente :heavy_check_mark:
+
+```ts
+@Module({
+  controllers: [CustomersController],
+  providers: [
+    Logger,
+    RegisterNewCustomerService,
+    CustomerRegisteredEventHandler,
+    { provide: 'IAccountRepository', useClass: AccountRepositry },
+    { provide: 'ICustomerRepository', useClass: CustomerRepository },
+  ],
+})
+export class CustomersModule {}
+
+```
