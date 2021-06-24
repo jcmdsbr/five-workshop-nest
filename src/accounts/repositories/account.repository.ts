@@ -2,7 +2,7 @@ import { Injectable } from '@nestjs/common';
 import { Model } from 'mongoose';
 import { IAccountRepository } from '../contracts/account-repository.contracts';
 import { InjectModel } from '@nestjs/mongoose';
-import AccountDocument from '../schemas/account.schema';
+import AccountDocument from '../../common/schemas/account.schema';
 import { Account } from '../entities/account.entity';
 
 @Injectable()

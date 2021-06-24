@@ -4,7 +4,7 @@ import { CustomersController } from './customers.controller';
 import { CustomerRepository } from './repositories/customer.repository';
 import { RegisterNewCustomerUseCase } from './use-cases/register-new-customer.use-case';
 import { CustomerSchema } from './entities/customer.entity';
-import { AccountRepository } from '../accounts/repositories/account.repository';
+import { AccountSchema } from 'src/common/schemas/account.schema';
 
 @Module({
   imports: [
@@ -13,6 +13,11 @@ import { AccountRepository } from '../accounts/repositories/account.repository';
         name: 'Customer',
         schema: CustomerSchema,
         collection: 'Customer',
+      },
+      {
+        name: 'Account',
+        schema: AccountSchema,
+        collection: 'Account',
       },
     ]),
   ],
@@ -24,7 +29,6 @@ import { AccountRepository } from '../accounts/repositories/account.repository';
       provide: 'ICustomerRepository',
       useClass: CustomerRepository,
     },
-    { provide: 'IAccountRepository', useClass: AccountRepository },
   ],
 })
 export class CustomersModule {}
