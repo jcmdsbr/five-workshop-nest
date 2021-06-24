@@ -4,6 +4,7 @@ import { CustomersController } from './customers.controller';
 import { CustomerRepository } from './repositories/customer.repository';
 import { RegisterNewCustomerUseCase } from './use-cases/register-new-customer.use-case';
 import { CustomerSchema } from './entities/customer.entity';
+import { AccountRepository } from '../accounts/repositories/account.repository';
 
 @Module({
   imports: [
@@ -23,6 +24,7 @@ import { CustomerSchema } from './entities/customer.entity';
       provide: 'ICustomerRepository',
       useClass: CustomerRepository,
     },
+    { provide: 'IAccountRepository', useClass: AccountRepository },
   ],
 })
 export class CustomersModule {}
