@@ -6,8 +6,19 @@ import { DepositUseCase } from './use-cases/deposit.use-case';
 import { WithdrawUseCase } from './use-cases/withdraw.use-case';
 import { GetCurrentBalanceUseCase } from './use-cases/get-current-balance.use-case';
 import { CustomerRegisteredEventHandler } from './events/customer-registered.event-handler';
+import { MongooseModule } from '@nestjs/mongoose';
+import { AccountSchema } from './schemas/account.schema';
 
 @Module({
+  imports: [
+    MongooseModule.forFeature([
+      {
+        name: 'Account',
+        schema: AccountSchema,
+        collection: 'Account',
+      },
+    ]),
+  ],
   providers: [
     Logger,
     CustomerRegisteredEventHandler,

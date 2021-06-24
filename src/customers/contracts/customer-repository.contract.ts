@@ -1,5 +1,5 @@
-import { Customer } from '../entities/customer.entity';
+import Customer from '../entities/customer.entity';
 
 export interface ICustomerRepository {
-  save(customer: Customer): Promise<void>;
+  save(customer: Customer): Promise<Customer>;
 }
