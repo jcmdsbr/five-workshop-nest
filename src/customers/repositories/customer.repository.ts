@@ -16,8 +16,7 @@ export class CustomerRepository implements ICustomerRepository {
   ) {}
 
   async save(customer: Customer): Promise<Customer> {
-    const createdCustomer = await this.customerRepository.create(customer);
-    return createdCustomer;
+    return await this.customerRepository.create(customer);
   }
   async attachAccount(account: Account): Promise<void> {
     await this.accountRepository.create(account);
