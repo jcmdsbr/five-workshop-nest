@@ -18,7 +18,7 @@ nest g controller accounts
 - Vamos definir nossos casos de uso agora com eles vamos descrever os comportamentos e regras da nossa aplicação
 
 ```sh
-nest g service accounts/useCases/CloseAccount
+nest g service accounts/useCases/closeAccount
 nest g service accounts/useCases/deposit
 nest g service accounts/useCases/withdraw
 nest g service accounts/useCases/getCurrentBalance
